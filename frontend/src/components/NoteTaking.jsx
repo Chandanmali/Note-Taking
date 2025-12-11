@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 
@@ -12,15 +12,28 @@ function NoteTaking() {
 
     const handleNoteCreate = () => {
 
-        setCreate([...create, {
+        const updateNote = [...create, {
             task: task,
             status: status
-        }])
+        }]
+
+        setCreate(updateNote)
+
+        localStorage.setItem("note", JSON.stringify(updateNote))
 
         setTask("")
         setStatus("")
 
     }
+
+    useEffect(() => {
+        const storeNotes = JSON.parse(localStorage.getItem("note"))
+        console.log("what is this", storeNotes)
+        if(storeNotes)
+        {
+            setCreate(storeNotes)
+        }
+    }, [])
 
     return (
         <div>
@@ -73,8 +86,7 @@ function NoteTaking() {
                                     <h1>{element.status}</h1>
                                 </div>
 
-                                <div className='ml- text-red-700 text-2xl cursor-pointer'>
-
+                                <div className='ml-15 text-red-700 text-2xl cursor-pointer'>
                                     <i class="ri-delete-bin-5-fill"></i>
                                 </div>
 
