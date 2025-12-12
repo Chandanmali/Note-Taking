@@ -7,7 +7,7 @@ const PORT = 3000
 const jwt = require("jsonwebtoken")
 const cors = require('cors')
 const MONGODB_URL = process.env.MONGODB_URL
-const JWT_USER_SECRETE = process.env.JWT_USER_SECRETE
+const JWT_USER_SECRETE1 = process.env.JWT_USER_SECRETE
 
 
 app.use(exprees.json())
@@ -54,7 +54,7 @@ app.post('/signin', async (req, res) => {
 
     const token = jwt.sign({
         userId: response._id
-    }, JWT_USER_SECRETE)
+    }, JWT_USER_SECRETE1)
 
     res.json({
         token: token
