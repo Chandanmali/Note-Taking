@@ -1,6 +1,7 @@
 import React from 'react'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import axios from 'axios'
 
 function SignIn() {
 
@@ -16,19 +17,24 @@ function SignIn() {
             return; // Stop function here
         }
 
-        const response = await axios.post("http://localhost:3000/signin", {
-            name: name,
-            password: password
-        })
-        
-        if(response)
-        {
-            localStorage.setItem(response.data.token)
-            alert("User registered successfully")
+        try {
+            const response = await axios.post("http://localhost:3000/signin", {
+                name: name,
+                password: password
+            });
+
+            localStorage.setItem("token", response.data.token);
+            localStorage.setItem("username", name);
+            alert("Login successful!");
+            navigate("/");  // redirect to home
+
+        } catch (error) {
+            alert("User not registered, please create account first");
+            
         }
 
-        
     }
+
     return (
         <div>
             <div>

@@ -26,6 +26,7 @@ function Signup() {
         })
 
         alert("User registered successfully")
+        navigate('/signin')
 
     }
 

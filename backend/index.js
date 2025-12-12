@@ -1,5 +1,5 @@
 const exprees = require('express')
-const mongoose  = require('mongoose')
+const mongoose = require('mongoose')
 const { userModel } = require('./model/user')
 const app = exprees()
 const PORT = 3000
@@ -14,7 +14,7 @@ app.use(cors())
 
 mongoose.connect("mongodb://localhost:27017/note-taking-app").then(() => console.log("mogodb connected successfully")).catch(() => console.log("db connection faild"))
 
-app.post('/signup', async(req, res) => {
+app.post('/signup', async (req, res) => {
 
     const name = req.body.name;
     const email = req.body.email;
@@ -33,7 +33,7 @@ app.post('/signup', async(req, res) => {
 
 })
 
-app.post('/signin', async(req, res) => {
+app.post('/signin', async (req, res) => {
 
     const name = req.body.name;
     const password = req.body.password;
@@ -43,18 +43,24 @@ app.post('/signin', async(req, res) => {
         password: password
     })
 
-    if(response)
-    {
-        const token = jwt.sign({
-            userId: response._id
-        }, JWT_SECRET)
-
-        res.json({
-            token: token
-        })
+    if (!response) {
+        return res.status(400).json({
+            message: "User not registered"
+        });
     }
 
+
+    const token = jwt.sign({
+        userId: response._id
+    }, JWT_SECRET)
+
+    res.json({
+        token: token
+    })
+
 })
+
+
 
 app.listen(PORT, () => {
     console.log("server running at ", PORT)
