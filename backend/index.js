@@ -1,18 +1,20 @@
+require("dotenv").config();
 const exprees = require('express')
 const mongoose = require('mongoose')
 const { userModel } = require('./model/user')
 const app = exprees()
 const PORT = 3000
 const jwt = require("jsonwebtoken")
-const JWT_SECRET = 'chandan@123@321'
 const cors = require('cors')
+const MONGODB_URL = process.env.MONGODB_URL
+const JWT_USER_SECRETE = process.env.JWT_USER_SECRETE
 
 
 app.use(exprees.json())
 
 app.use(cors())
 
-mongoose.connect("mongodb://localhost:27017/note-taking-app").then(() => console.log("mogodb connected successfully")).catch(() => console.log("db connection faild"))
+mongoose.connect(MONGODB_URL).then(() => console.log("mogodb connected successfully")).catch(() => console.log("db connection faild"))
 
 app.post('/signup', async (req, res) => {
 
@@ -52,7 +54,7 @@ app.post('/signin', async (req, res) => {
 
     const token = jwt.sign({
         userId: response._id
-    }, JWT_SECRET)
+    }, JWT_USER_SECRETE)
 
     res.json({
         token: token
