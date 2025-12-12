@@ -19,21 +19,35 @@ function SignIn() {
             return; // Stop function here
         }
 
-        try {
+        
+
+       
             const response = await axios.post(`${backendUrl}/signin`, {
                 name: name,
                 password: password
             });
 
-            localStorage.setItem("token", response.data.token);
+            if(response.data.token)
+            {
+                localStorage.setItem("token", response.data.token);
             localStorage.setItem("username", name);
             alert("Login successful!");
             navigate("/");  // redirect to home
 
-        } catch (error) {
-            alert("User not registered, please create account first");
+            }
+            else{
+                alert("User not registered, please create account first")
+            }
+
+            // localStorage.setItem("token", response.data.token);
+            // localStorage.setItem("username", name);
+            // alert("Login successful!");
+            // navigate("/");  // redirect to home
+
+        // } catch (error) {
+        //     alert("User not registered, please create account first");
             
-        }
+        // }
 
     }
 

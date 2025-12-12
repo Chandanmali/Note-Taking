@@ -7,12 +7,15 @@ const PORT = 3000
 const jwt = require("jsonwebtoken")
 const cors = require('cors')
 const MONGODB_URL = process.env.MONGODB_URL
-const JWT_USER_SECRETE1 = process.env.JWT_USER_SECRETE
+const JWT_USER_SECRETE = process.env.JWT_USER_SECRETE
 
 
 app.use(exprees.json())
 
-app.use(cors())
+app.use(cors({
+  origin: "*"
+}));
+
 
 mongoose.connect(MONGODB_URL).then(() => console.log("mogodb connected successfully")).catch(() => console.log("db connection faild"))
 
@@ -36,31 +39,29 @@ app.post('/signup', async (req, res) => {
 })
 
 app.post('/signin', async (req, res) => {
+    try {
+        const { name, password } = req.body;
 
-    const name = req.body.name;
-    const password = req.body.password;
+        const response = await userModel.findOne({ name, password });
 
-    const response = await userModel.findOne({
-        name: name,
-        password: password
-    })
+        if (!response) {
+            return res.status(400).json({
+                message: "Invalid name or password"
+            });
+        }
 
-    if (!response) {
-        return res.status(400).json({
-            message: "User not registered"
-        });
+        const token = jwt.sign(
+            { userId: response._id },
+            JWT_USER_SECRETE
+        );
+
+        res.json({ token });
+
+    } catch (err) {
+        console.error("Signin error:", err.message);  // print actual issue
+        res.status(500).json({ message: "Internal server error" });
     }
-
-
-    const token = jwt.sign({
-        userId: response._id
-    }, JWT_USER_SECRETE1)
-
-    res.json({
-        token: token
-    })
-
-})
+});
 
 
 
