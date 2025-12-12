@@ -8,6 +8,8 @@ function SignIn() {
     const [name, setName] = useState("")
     const [password, setPassword] = useState("")
 
+    const backendUrl = import.meta.env.VITE_BACKEND_URL;
+
     const navigate = useNavigate();
 
     const handleSignIn = async () => {
@@ -18,7 +20,7 @@ function SignIn() {
         }
 
         try {
-            const response = await axios.post("http://localhost:3000/signin", {
+            const response = await axios.post(`${backendUrl}/signin`, {
                 name: name,
                 password: password
             });

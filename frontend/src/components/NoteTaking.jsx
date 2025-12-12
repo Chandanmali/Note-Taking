@@ -65,8 +65,8 @@ function NoteTaking() {
         </div>
 
         {username && (
-          <div className="md:flex-1 md:text-center">
-            <p className="font-semibold text-base md:text-lg">Welcome {username}</p>
+          <div className="md:flex-1 md:text-center md:ml-[500px]">
+            <p className="font-semibold text-base md:text-lg">Welcome! {username}</p>
           </div>
         )}
 
@@ -121,13 +121,13 @@ function NoteTaking() {
               key={index}
               className="flex justify-center w-full md:w-[600px] lg:w-[720px] border rounded-xl border-gray-300 shadow-xl py-2"
             >
-              <div className="flex justify-between w-full px-4 md:px-13 items-center gap-2">
+              <div className="flex justify-between w-full px-8 md:px-13 items-center gap-2">
                 <div className="flex flex-col md:flex-row md:justify-between w-full text-base md:text-xl font-semibold font-serif gap-1 md:gap-0">
-                  <h1 className="break-words">{element.task}</h1>
+                  <h1 className="">{element.task}</h1>
                   <h1 className="text-sm md:text-xl text-gray-600">{element.status}</h1>
                 </div>
 
-                <div className="ml-2 md:ml-15 text-red-700 text-xl md:text-2xl cursor-pointer flex-shrink-0">
+                <div className=" md:ml-15 text-red-700 text-xl md:text-2xl cursor-pointer ">
                   <i onClick={() => removeNotes(index)} class="ri-delete-bin-5-fill"></i>
                 </div>
               </div>
